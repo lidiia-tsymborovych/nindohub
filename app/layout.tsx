@@ -3,6 +3,9 @@
 import type { Metadata } from "next";
 import { Montserrat, Nunito } from 'next/font/google';
 import './globals.css'; 
+import { Header } from "./components/Header";
+import { Footer } from "./components/Footer";
+import { ThemeProvider } from 'next-themes';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -56,8 +59,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en' className={`${montserrat.variable} ${nunito.variable}`}>
-      <body className='antialiased'>{children}</body>
+    <html lang='en' suppressHydrationWarning>
+      <body
+        className={`flex flex-col min-h-screen antialiased ${montserrat.variable} ${nunito.variable}`}
+      >
+        <ThemeProvider
+          attribute='class'
+          defaultTheme='system'
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Header />
+          {children}
+          <Footer />
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

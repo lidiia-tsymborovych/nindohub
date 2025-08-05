@@ -37,32 +37,31 @@ export default async function CharacterPage({ params }: Props) {
         />
 
         <section className='flex-1 space-y-8 max-w-150 w-full'>
-
-          <div className='bg-white rounded-lg shadow-md p-6 '>
+          <div className='bg-white dark:bg-[#1f1f1f] dark:shadow-[0_0_10px_2px_rgba(255,137,4,0.4)] rounded-lg shadow-md p-6 '>
             <DebutSection debut={character.debut} />
           </div>
 
-          <div className='bg-white rounded-lg shadow-md p-6'>
+          <div className='bg-white dark:bg-[#1f1f1f] dark:shadow-[0_0_10px_2px_rgba(255,137,4,0.4)]  rounded-lg shadow-md p-6'>
             <PersonalInfoSection character={character} />
           </div>
 
-          <div className='bg-white rounded-lg shadow-md p-6'>
+          <div className='bg-white dark:bg-[#1f1f1f] dark:shadow-[0_0_10px_2px_rgba(255,137,4,0.4)]  rounded-lg shadow-md p-6'>
             <FamilySection character={character} />
           </div>
 
-          <div className='bg-white rounded-lg shadow-md p-6'>
+          <div className='bg-white dark:bg-[#1f1f1f] dark:shadow-[0_0_10px_2px_rgba(255,137,4,0.4)]  rounded-lg shadow-md p-6'>
             <JutsuSection character={character} />
           </div>
 
-          <div className='bg-white rounded-lg shadow-md p-6'>
+          <div className='bg-white dark:bg-[#1f1f1f] dark:shadow-[0_0_10px_2px_rgba(255,137,4,0.4)]  rounded-lg shadow-md p-6'>
             <NatureTypeSection character={character} />
           </div>
 
-          <div className='bg-white rounded-lg shadow-md p-6'>
+          <div className='bg-white dark:bg-[#1f1f1f] dark:shadow-[0_0_10px_2px_rgba(255,137,4,0.4)]  rounded-lg shadow-md p-6'>
             <ToolsSection character={character} />
           </div>
 
-          <div className='bg-white rounded-lg shadow-md p-6'>
+          <div className='bg-white dark:bg-[#1f1f1f] dark:shadow-[0_0_10px_2px_rgba(255,137,4,0.4)]  rounded-lg shadow-md p-6'>
             <VoiceActorSection character={character} />
           </div>
         </section>

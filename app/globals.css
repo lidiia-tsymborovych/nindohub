@@ -1,28 +1,37 @@
 /* app/globas.css */
 
 @import "tailwindcss";
+@custom-variant dark (&:is(.dark, .dark *));
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-bg: #e9f6f7;
+  --color-text: #2c3e3e;
+  --color-primary: #2563eb;
+  --color-secondary: #6b7280;
+  --color-accent: #ff8904;
 
   --font-sans: var(--font-nunito);
   --font-alt: var(--font-montserrat);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.dark {
+  --color-bg: #121212;
+  --color-text: #e5e7eb;
+  --color-primary: #3b82f6;
+  --color-secondary: #9ca3af;
+  --color-accent: #ff8904;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--color-bg);
+  color: var(--color-text);
   font-family: var(--font-sans), sans-serif;
 }
 
 .font-alt {
   font-family: var(--font-alt), sans-serif;
+}
+
+.drop-shadow-glow {
+  filter: drop-shadow(0 0 4px var(--color-accent));
 }

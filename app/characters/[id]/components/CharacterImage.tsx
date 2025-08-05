@@ -21,7 +21,7 @@ export const CharacterImage = ({ src, alt }: Props) => {
       width={imageWidth}
       height={imageHeight}
       style={{ aspectRatio: `${imageWidth} / ${imageHeight}` }}
-      className='rounded-lg object-cover'
+      className='rounded-lg object-cover object-top'
       priority
       onError={() => setImgSrc('/fallback.png')}
     />

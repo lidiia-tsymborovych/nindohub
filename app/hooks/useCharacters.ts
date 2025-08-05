@@ -10,33 +10,38 @@ type UseCharactersOptions = {
   pageSize?: number;
 };
 
-export function useCharacters({
-  page = 1,
-  pageSize = 20,
-}: UseCharactersOptions = {}) {
-  const [data, setData] = useState<Character[]>([]);
+export function useCharacters({ pageSize = 20 }: UseCharactersOptions = {}) {
+  const [characters, setCharacters] = useState<Character[]>([]);
   const [total, setTotal] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
+  const loadMore = async () => {
+    setLoading(true);
+    try {
+      const json = await fetchCharactersApi({ page, pageSize });
+      setCharacters(prev => {
+        const existingIds = new Set(prev.map(c => c.id));
+        const uniqueNewCharacters = json.characters.filter(
+          c => !existingIds.has(c.id)
+        );
+        return [...prev, ...uniqueNewCharacters];
+      });
+      setTotal(json.total);
+      setPage(prev => prev + 1);
+    } catch (err) {
+      setError(err as Error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const getData = async () => {
-      setLoading(true);
-      setError(null);
+    loadMore();
+  }, []);
 
-      try {
-        const json = await fetchCharactersApi({ page, pageSize });
-        setData(json.characters);
-        setTotal(json.total);
-      } catch (err) {
-        setError(err as Error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const hasMore = characters.length < total;
 
-    getData();
-  }, [page, pageSize]);
-
-  return { data, total, loading, error };
+  return { characters, total, loading, error, loadMore, hasMore };
 }

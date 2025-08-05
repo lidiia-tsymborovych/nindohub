@@ -21,7 +21,20 @@ export function CharacterCard({ character, isPriority }: Props) {
   return (
     <Link
       href={`/characters/${character.id}`}
-      className='block bg-white shadow-lg rounded-xl overflow-hidden p-4 transition hover:scale-105 hover:shadow-xl duration-300'
+      className='
+        block
+        bg-white
+        dark:bg-[#1f1f1f] 
+        rounded-xl 
+        overflow-hidden 
+        p-4 
+        transition 
+        transform 
+        hover:scale-105 
+        hover:shadow-[0_0_10px_2px_rgba(255,137,4,0.4)] 
+        shadow-[0_0_10px_1px_rgba(255,255,255,0.1)] 
+        duration-300
+      '
       aria-label={`Go to the character page ${character.name}`}
     >
       <Image
@@ -30,7 +43,7 @@ export function CharacterCard({ character, isPriority }: Props) {
         width={imageWidth}
         height={imageHeight}
         style={{ aspectRatio: `${imageWidth} / ${imageHeight}` }}
-        className='rounded-md object-cover'
+        className='rounded-md object-cover object-top'
         priority={isPriority}
         onError={() => setImgSrc('/fallback.png')}
       />
