@@ -17,6 +17,7 @@ export async function fetchCharacters({
   return res.json();
 }
 
+
 export async function fetchCharacterById(
   id: number
 ): Promise<Character | null> {
@@ -34,3 +35,5 @@ export async function fetchCharacterById(
     return null;
   }
 }
+
+
