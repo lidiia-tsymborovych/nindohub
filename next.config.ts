@@ -2,7 +2,13 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ['static.wikia.nocookie.net'], // обов’язково цей домен!
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'static.wikia.nocookie.net',
+        pathname: '/**',
+      },
+    ],
   },
 };
 
