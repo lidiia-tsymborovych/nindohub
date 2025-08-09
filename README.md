@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# My Next.js Project
+
+This is my personal Next.js 15 project built with love and a sleek black & orange theme.
+
+## Features
+
+- **Next.js 15** with the new App Router architecture.
+- Custom 404 error page with dark mode vibes and orange highlights.
+- **Tailwind CSS** for rapid and responsive styling.
+- Light/Dark theme toggle powered by **next-themes** for smooth theme switching.
+- Complex filtering system with tag-based search to help users find what they need quickly.
+- Adaptive layout that works perfectly on all screen sizes — mobile, tablet, and desktop.
+- Usage of **Shadcn/ui** components for accessible and well-designed UI elements.
+- Custom hooks and components to handle specific logic and UI needs.
+- Clean, maintainable codebase following best frontend practices.
 
 ## Getting Started
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+1. Clone the repo:
+```
+git clone https://github.com/<your-username>/<your-repo-name>.git
+```
+2. Navigate into the project directory:
+```
+  cd <your-repo-name>
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Install dependencies:
+```
+  npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+4. Run the development server:
+```
+  npm run dev
+```
+  Open http://localhost:3000 in your browser.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Deployment
+This project is deployed on Vercel and set up for automatic deployments on push to the main branch.
+You can also deploy manually via https://vercel.com by linking your GitHub repo.
 
-## Learn More
+My Role
+I built this project solo, crafting a custom 404 page, implementing light/dark mode with next-themes, and integrating complex tag filtering. I used Shadcn/ui components for polished UI, plus custom hooks like CustomNihilCave to solve unique challenges. This project helped me deepen my Next.js 15 skills and explore modern frontend patterns.
 
-To learn more about Next.js, take a look at the following resources:
+Feel free to reach out if you have questions or suggestions!
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

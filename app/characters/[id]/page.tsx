@@ -10,15 +10,14 @@ import { NatureTypeSection } from './components/NatureTypeSection';
 import { ToolsSection } from './components/ToolsSection';
 import { VoiceActorSection } from './components/VoiceActorSection';
 
-interface Props {
-  params: {
-    id: string;
-  };
+interface Params {
+  id: string;
 }
 
-export default async function CharacterPage({ params }: Props) {
-  const id = Number(params.id);
-  const character = await fetchCharacterById(id);
+
+export default async function CharacterPage({ params }: { params: Promise<Params> }) {
+  const { id } = await params;
+  const character = await fetchCharacterById(Number(id));
 
   if (!character) {
     notFound();
