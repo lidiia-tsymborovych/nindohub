@@ -3,7 +3,7 @@
 
 import Image from 'next/image';
 import { Character } from '../types/character';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
   isPriority?: boolean;
 };
 
-export function CharacterCard({ character, isPriority }: Props) {
+function CharacterCardComponent({ character, isPriority }: Props) {
   const [imgSrc, setImgSrc] = useState(
     character.images?.[0] ?? '/fallback.png'
   );
@@ -52,3 +52,9 @@ export function CharacterCard({ character, isPriority }: Props) {
   );
 }
 
+export const CharacterCard = React.memo(
+  CharacterCardComponent,
+  (prevProps, nextProps) =>
+    prevProps.character.id === nextProps.character.id &&
+    prevProps.isPriority === nextProps.isPriority
+);

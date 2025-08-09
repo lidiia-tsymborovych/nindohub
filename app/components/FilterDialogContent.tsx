@@ -1,51 +1,39 @@
 // components/FilterDialogContent.tsx
 'use client';
 
-import * as React from 'react';
+import React from 'react';
 import { FilterGroup } from './FilterGroup';
 import { X } from 'lucide-react';
+import { FilterGroupKey, Filters } from '../types/filters';
+import { CATEGORIES, CLANS, KEKKEI, TAG_LABEL_BY_ID, VILLAGES } from '../lib/tags';
+import { shallowCompareFilters } from '../utils/shallowCompare';
 
-const clans = [
-  { id: 'clan-12', label: 'Hyūga' },
-  { id: 'clan-8', label: 'Hatake' },
-  { id: 'clan-21', label: 'Yamanaka' },
-  { id: 'clan-1', label: 'Akimichi' },
-  { id: 'clan-0', label: 'Aburame' },
-];
+type Props = {
+  filters: Filters;
+  setFilters: React.Dispatch<React.SetStateAction<Filters>>;
+  applyFilters: () => void;
+  resetFilters: () => void;
+};
 
-const villages = [
-  { id: 'village-16', label: 'Konohagakure' },
-  { id: 'village-14', label: 'Kirigakure' },
-  { id: 'village-17', label: 'Kumogakure' },
-  { id: 'village-11', label: 'Iwagakure' },
-  { id: 'village-0', label: 'Amegakure' },
-];
-
-const kekkeiGenkai = [
-  { id: 'kekkei-1', label: 'Byakugan' },
-  { id: 'kekkei-19', label: 'Mangekyō Sharingan' },
-  { id: 'kekkei-14', label: 'Lava Release' },
-];
-
-const categories = [
-  { id: 'akatsuki', label: 'Akatsuki' },
-  { id: 'tailed-beasts', label: 'Tailed Beasts' },
-];
-
-
-
-export function FilterDialogContent() {
-  const [selectedTags, setSelectedTags] = React.useState<string[]>([]);
-
-  const toggleTag = (id: string) => {
-    setSelectedTags(prev =>
-      prev.includes(id) ? prev.filter(tag => tag !== id) : [...prev, id]
-    );
+function FilterDialogContentComponent({ filters, setFilters, applyFilters, resetFilters }: Props) {
+  const toggleTag = (group: FilterGroupKey, id: string) => {
+    setFilters(prev => {
+      const arr = prev[group] ?? [];
+      return {
+        ...prev,
+        [group]: arr.includes(id) ? arr.filter(x => x !== id) : [...arr, id],
+      };
+    });
   };
 
-  const removeTag = (id: string) => {
-    setSelectedTags(prev => prev.filter(tag => tag !== id));
+  const removeTag = (group: FilterGroupKey, id: string) => {
+    setFilters(prev => ({
+      ...prev,
+      [group]: prev[group].filter(x => x !== id),
+    }));
   };
+
+  const flatSelected = Object.values(filters).flat();
 
   return (
     <aside
@@ -56,29 +44,22 @@ export function FilterDialogContent() {
       <section aria-label='Choosen tags' className='mb-2'>
         <h2 className='text-2xl font-semibold mb-2'>Filters</h2>
         <div className='flex flex-wrap gap-2'>
-          {selectedTags.length === 0 ? (
-            <p className=''>No selected tags</p>
+          {flatSelected.length === 0 ? (
+            <p>No selected tags</p>
           ) : (
-            selectedTags.map(tag => {
-              const label =
-                clans.find(c => c.id === tag)?.label ||
-                villages.find(v => v.id === tag)?.label ||
-                kekkeiGenkai.find(c => c.id === tag)?.label ||
-                categories.find(c => c.id === tag)?.label ||
-                tag;
-
+            flatSelected.map(tagId => {
+              const label = TAG_LABEL_BY_ID[tagId] ?? tagId;
+              const group = (Object.keys(filters) as FilterGroupKey[]).find(g =>
+                filters[g].includes(tagId)
+              )!;
               return (
                 <button
-                  key={tag}
-                  onClick={() => removeTag(tag)}
-                  className='flex items-center gap-2 px-3 py-1.5 rounded-md text-sm bg-[var(--color-accent)] text-white dark:text-gray-200 cursor-pointer group'
-                  aria-label={`Видалити тег ${label}`}
+                  key={tagId}
+                  onClick={() => removeTag(group, tagId)}
+                  className='flex items-center gap-2 px-3 py-1.5 rounded-md text-sm bg-[var(--color-accent)] text-white cursor-pointer group'
                 >
                   <span>{label}</span>
-                  <X
-                    className='w-3 h-3 transition-transform duration-200 group-hover:scale-125'
-                    aria-hidden='true'
-                  />
+                  <X className='w-3 h-3' />
                 </button>
               );
             })
@@ -88,31 +69,55 @@ export function FilterDialogContent() {
 
       <FilterGroup
         title='Categories'
-        options={categories}
-        selectedTags={selectedTags}
-        toggleTag={toggleTag}
+        options={CATEGORIES}
+        selectedForGroup={filters.categories}
+        toggle={id => toggleTag('categories', id)}
       />
 
       <FilterGroup
         title='Clans'
-        options={clans}
-        selectedTags={selectedTags}
-        toggleTag={toggleTag}
+        options={CLANS}
+        selectedForGroup={filters.clans}
+        toggle={id => toggleTag('clans', id)}
       />
 
       <FilterGroup
         title='Villages'
-        options={villages}
-        selectedTags={selectedTags}
-        toggleTag={toggleTag}
+        options={VILLAGES}
+        selectedForGroup={filters.villages}
+        toggle={id => toggleTag('villages', id)}
       />
 
       <FilterGroup
         title='Kekkei Genkai'
-        options={kekkeiGenkai}
-        selectedTags={selectedTags}
-        toggleTag={toggleTag}
+        options={KEKKEI}
+        selectedForGroup={filters.kekkeiGenkai}
+        toggle={id => toggleTag('kekkeiGenkai', id)}
       />
+
+      <button
+        type='button'
+        aria-label='Apply Filters'
+        onClick={applyFilters}
+        className='mt-2 h-10 py-2 bg-[#1f1f1f] dark:bg-[var(--color-accent)] text-white rounded-md hover:bg-[#1f1f1f]/80 transition cursor-pointer dark:hover:bg-amber-600 duration-300 ease-in-out'
+      >
+        Apply Filters
+      </button>
+
+      <button
+        type='button'
+        aria-label='Reset all Filters'
+        onClick={resetFilters}
+        className='mt-2 h-10 bg-gray-200 text-black px-4 py-2 rounded hover:bg-gray-300 cursor-pointer transition'
+      >
+        Reset all Filters
+      </button>
     </aside>
   );
 }
+
+export const FilterDialogContent = React.memo(
+  FilterDialogContentComponent,
+  (prevProps, nextProps) =>
+    shallowCompareFilters(prevProps.filters, nextProps.filters)
+);

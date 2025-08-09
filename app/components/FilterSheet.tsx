@@ -1,3 +1,5 @@
+//app/components/ filterSheet.tsx
+
 'use client';
 
 import {
@@ -7,16 +9,31 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { FilterDialogContent } from './FilterDialogContent';
+import { Filters } from '../types/filters';
 
-export function FilterSheet() {
+type Props = {
+  filters: Filters;
+  setFilters: React.Dispatch<React.SetStateAction<Filters>>;
+  applyFilters: () => void;
+  resetFilters: () => void;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+};
+
+export function FilterSheet({ filters, setFilters, applyFilters, resetFilters, open, onOpenChange }: Props) {
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetTrigger className='w-24 h-9 bg-[#1f1f1f] dark:bg-[var(--color-accent)] text-white rounded-md hover:bg-[#1f1f1f]/80 transition cursor-pointer dark:hover:bg-amber-600 duration-300 ease-in-out'>
         Filters
       </SheetTrigger>
       <SheetContent side='left' className='w-80 bg-white'>
         <SheetTitle className='sr-only'>Character&apos;s Filters</SheetTitle>{' '}
-        <FilterDialogContent />
+        <FilterDialogContent
+          filters={filters}
+          setFilters={setFilters}
+          applyFilters={applyFilters}
+          resetFilters={resetFilters}
+        />
       </SheetContent>
     </Sheet>
   );

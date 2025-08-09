@@ -1,20 +1,21 @@
+//app/components/filtergroup.tsx
 'use client'
 
-interface FilterGroupProps {
-  title: string;
-  options: { id: string; label: string }[];
-  selectedTags: string[];
-  toggleTag: (id: string) => void;
+interface Option {
+  id: string;
+  label: string;
 }
 
-export function FilterGroup({
-  title,
-  options,
-  selectedTags,
-  toggleTag,
-}: FilterGroupProps) {
+type Props = {
+  title: string;
+  options: Option[];
+  selectedForGroup: string[];
+  toggle: (id: string) => void;
+};
+
+export function FilterGroup({ title, options, selectedForGroup, toggle }: Props) {
   const unselectedOptions = options.filter(
-    opt => !selectedTags.includes(opt.id)
+    opt => !selectedForGroup.includes(opt.id)
   );
 
   if (unselectedOptions.length === 0) return null;
@@ -28,7 +29,7 @@ export function FilterGroup({
         {unselectedOptions.map(({ id, label }) => (
           <li
             key={id}
-            onClick={() => toggleTag(id)}
+            onClick={() => toggle(id)}
             className='cursor-pointer select-none px-3 py-1.5 rounded-md text-sm text-[var(--color-text)]/40  border border-white dark:border-none hover:bg-[var(--color-accent)]/30 transition-colors bg-[var(--color-accent)]/12 dark:bg-white/6 dark:hover:bg-white/12'
           >
             {label}

@@ -26,7 +26,7 @@ export default async function CharacterPage({ params }: Props) {
 
   return (
     <main className='max-w-5xl mx-auto p-6 md:p-12'>
-      <h1 className='text-4xl md:text-5xl font-extrabold mb-10 text-center md:text-left text-gray-900'>
+      <h1 className='text-4xl md:text-5xl font-extrabold mb-10 text-center md:text-left text-[var(--color-text)]'>
         {character.name}
       </h1>
 

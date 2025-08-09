@@ -15,17 +15,14 @@ interface SliderProps {
 }
 
 export default function CoolLinksSlider({ slides }: SliderProps) {
-  // Рефи на дефолтні кнопки swiper
   const prevBtnRef = useRef<HTMLButtonElement>(null);
   const nextBtnRef = useRef<HTMLButtonElement>(null);
 
-  // Хендл для кастомних кнопок - просто викликаємо click() дефолтних
   const handlePrev = () => prevBtnRef.current?.click();
   const handleNext = () => nextBtnRef.current?.click();
 
   return (
     <div className='relative max-w-6xl mx-auto px-8'>
-      {/* Дефолтні кнопки swiper, приховані */}
       <button
         ref={prevBtnRef}
         className='swiper-button-prev opacity-0 absolute top-1/2 left-0 -translate-y-1/2 z-10'
@@ -37,7 +34,6 @@ export default function CoolLinksSlider({ slides }: SliderProps) {
         aria-label='Next slide'
       />
 
-      {/* Кастомні стрілки */}
       <div
         onClick={handlePrev}
         className='
@@ -52,14 +48,17 @@ export default function CoolLinksSlider({ slides }: SliderProps) {
       duration-300
        md:hover:bg-[var(--color-accent)]/40
       md:active:bg-[var(--color-accent)]
-      shadow-md
+      md:shadow-md
       backdrop-blur-sm
     '
         role='button'
         tabIndex={0}
         aria-label='Previous slide'
       >
-        <ChevronLeft size={24} color='white' />
+        <ChevronLeft
+          size={24}
+          className='text-black/60 md:text-white dark:text-white'
+        />
       </div>
 
       <div
@@ -76,14 +75,17 @@ export default function CoolLinksSlider({ slides }: SliderProps) {
       duration-300
       md:hover:bg-[var(--color-accent)]/40
       md:active:bg-[var(--color-accent)]
-      shadow-md
+      md:shadow-md
       backdrop-blur-sm
     '
         role='button'
         tabIndex={0}
         aria-label='Next slide'
       >
-        <ChevronRight size={24} color='white' />
+        <ChevronRight
+          size={24}
+          className='text-black/60 md:text-white dark:text-white'
+        />
       </div>
 
       {/* Твій Swiper тут... */}

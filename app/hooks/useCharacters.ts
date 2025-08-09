@@ -1,47 +1,51 @@
-// hooks/useCharacters.ts
-'use client';
-
-import { useEffect, useState } from 'react';
+'use client'
+import { useState, useEffect, useCallback } from 'react';
+import { filterCharacters, uniqueById } from '../lib/filterCharacters';
 import { Character } from '../types/character';
-import { fetchCharacters as fetchCharactersApi } from '../lib/api';
+import { Filters } from '../types/filters';
 
-type UseCharactersOptions = {
-  page?: number;
+type UseCharactersParams = {
+  page: number;
   pageSize?: number;
+  query?: string;
+  filters: Filters;
 };
 
-export function useCharacters({ pageSize = 20 }: UseCharactersOptions = {}) {
+export function useCharacters({
+  page,
+  pageSize = 20,
+  query = '',
+  filters,
+}: UseCharactersParams) {
   const [characters, setCharacters] = useState<Character[]>([]);
   const [total, setTotal] = useState(0);
-  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const loadMore = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
+    setError(null);
     try {
-      const json = await fetchCharactersApi({ page, pageSize });
+      const data = await filterCharacters({ page, pageSize, query, filters });
       setCharacters(prev => {
-        const existingIds = new Set(prev.map(c => c.id));
-        const uniqueNewCharacters = json.characters.filter(
-          c => !existingIds.has(c.id)
-        );
-        return [...prev, ...uniqueNewCharacters];
+        if (page === 1) return data.characters;
+        const combined = [...prev, ...data.characters];
+
+        return uniqueById(combined);
       });
-      setTotal(json.total);
-      setPage(prev => prev + 1);
+      setTotal(data.total);
     } catch (err) {
-      setError(err as Error);
+      setError(err instanceof Error ? err.message : 'Unknown error');
     } finally {
       setLoading(false);
     }
-  };
+  }, [page, pageSize, query, filters]);
 
   useEffect(() => {
-    loadMore();
-  }, []);
+    fetchData();
+  }, [fetchData]);
 
   const hasMore = characters.length < total;
 
-  return { characters, total, loading, error, loadMore, hasMore };
+  return { characters, total, loading, error, hasMore };
 }

@@ -32,7 +32,7 @@ const validSlides = slides.filter(Boolean) as { id: number; url: string }[];
 
   return (
     <main className='relative overflow-hidden flex flex-col items-center justify-center px-4 md:px-10 py-8'>
-      <div className='z-10 text-center max-w-2xl'>
+      <div className='z-10 text-center max-w-2xl sm:mb-8 md:mb-0'>
         <h1 className='flex flex-wrap justify-center text-5xl md:text-6xl text-black dark:text-white font-extrabold font-alt mb-4 drop-shadow-xl'>
           Welcome to
           <span className='pl-3 text-[var(--color-accent)]'>NindoHub</span>
